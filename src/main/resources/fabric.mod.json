@@ -8,8 +8,9 @@
 		"Natte"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/Natanaelel/enderman_tweaks"
+		"homepage": "https://github.com/Natanaelel/enderman_tweaks",
+		"sources": "https://github.com/Natanaelel/enderman_tweaks",
+		"issues": "https://github.com/Natanaelel/enderman_tweaks/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/enderman_tweaks/icon.png",

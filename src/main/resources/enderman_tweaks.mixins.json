@@ -4,7 +4,9 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"EndermanEntityMixin",
-		"PersistentProjectileEntityMixin"
+		"PersistentProjectileEntityMixin",
+		"EndermanEntity$PickUpBlockGoalMixin",
+		"EndermanEntity$PlaceBlockGoalMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
