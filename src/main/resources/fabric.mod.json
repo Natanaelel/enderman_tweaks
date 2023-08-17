@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "enderman_tweaks",
+	"version": "0.0.1",
+	"name": "Enderman Tweaks",
+	"description": "Enderman tweaks",
+	"authors": [
+		"Natte"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/Natanaelel/enderman_tweaks"
+	},
+	"license": "MIT",
+	"icon": "assets/enderman_tweaks/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.natte.EndermanTweaks"
+		],
+		"modmenu": [
+			"net.natte.config.ModMenuApiImpl"
+		]
+	},
+	"mixins": [
+		"enderman_tweaks.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.22",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenud": ">=7.2.1"
+	}
+}
