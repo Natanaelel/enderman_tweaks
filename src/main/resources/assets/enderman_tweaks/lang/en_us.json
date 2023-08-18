@@ -3,7 +3,7 @@
 
     "enderman_tweaks.midnightconfig.doesWaterHurt": "Endermen takes damage from water",
     "enderman_tweaks.midnightconfig.doesProjectileHit": "Endermen can get hit by arrows",
-    "enderman_tweaks.midnightconfig.doesStareAnger": "Endermen doesn't get angry when you look at them",
+    "enderman_tweaks.midnightconfig.doesStareAnger": "Endermen get angry when you look at them",
     "enderman_tweaks.midnightconfig.canPickUpBlocks": "Endermen can pick up blocks",
     "enderman_tweaks.midnightconfig.canPlaceBlocks": "Endermen can place blocks"
 }

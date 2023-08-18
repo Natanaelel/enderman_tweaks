@@ -16,6 +16,8 @@ import com.mojang.brigadier.context.CommandContext;
 import static net.minecraft.server.command.CommandManager.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EndermanTweaks implements ModInitializer {
 
@@ -38,32 +40,33 @@ public class EndermanTweaks implements ModInitializer {
 		CommandRegistrationCallback.EVENT.register(
 				(dispatcher, registryAccess, environment) -> dispatcher.register(
 						literal("enderman_tweaks")
-								.then(reloadConfigCommand())
-								.then(showConfigCommand())));
+								.then(reloadConfigCommand("reload"))
+								.then(showConfigCommand("info"))));
 
 	}
 
 	private static int showConfig(CommandContext<ServerCommandSource> context) {
 		ServerCommandSource source = context.getSource();
 
-		String message = "";
+		List<String> lines = new ArrayList<String>();
+
 		for (Field field : Config.class.getFields()) {
-			String value;
+			String value = "(null)";
 			try {
-				value = field.getBoolean(null) ? "true" : "false";
+				value = field.get(null).toString();
 			} catch (Exception e) {
-				value = "-";
 			}
-			message += field.getName() + ": " + value + "\n";
+			if(!field.getName().equals("configClass"))
+				lines.add(field.getName() + ": " + value);
 		}
 
-		source.sendMessage(Text.of(message));
+		source.sendMessage(Text.of(String.join("\n", lines)));
 
 		return Command.SINGLE_SUCCESS;
 	}
 
-	private static LiteralArgumentBuilder<ServerCommandSource> reloadConfigCommand() {
-		return literal("reload_config").requires(source -> source.hasPermissionLevel(2))
+	private static LiteralArgumentBuilder<ServerCommandSource> reloadConfigCommand(String command) {
+		return literal(command).requires(source -> source.hasPermissionLevel(2))
 				.executes(context -> {
 					Config.init("enderman_tweaks", Config.class);
 					context.getSource().sendMessage(Text.of("reloaded config"));
@@ -71,8 +74,8 @@ public class EndermanTweaks implements ModInitializer {
 				});
 	}
 
-	private static LiteralArgumentBuilder<ServerCommandSource> showConfigCommand() {
-		return literal("config").executes(EndermanTweaks::showConfig);
+	private static LiteralArgumentBuilder<ServerCommandSource> showConfigCommand(String command) {
+		return literal(command).executes(EndermanTweaks::showConfig);
 	}
 
 }
