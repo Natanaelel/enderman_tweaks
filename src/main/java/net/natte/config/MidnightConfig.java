@@ -75,7 +75,7 @@ public abstract class MidnightConfig {
     public static void init(String modid, Class<?> config) {
         path = FabricLoader.getInstance().getConfigDir().resolve(modid + ".json");
         configClass.put(modid, config);
-
+        entries.clear();
         for (Field field : config.getFields()) {
             EntryInfo info = new EntryInfo();
             if ((field.isAnnotationPresent(Entry.class) || field.isAnnotationPresent(Comment.class)) && !field.isAnnotationPresent(Server.class) && !field.isAnnotationPresent(Hidden.class))
