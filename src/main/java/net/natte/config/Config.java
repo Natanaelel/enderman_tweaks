@@ -7,6 +7,7 @@ public class Config extends MidnightConfig {
     @Entry public static boolean doesStareAnger = true;
     @Entry public static boolean canPickUpBlocks = true;
     @Entry public static boolean canPlaceBlocks = true;
+    @Entry public static boolean canTeleport = true;
 
 
 }

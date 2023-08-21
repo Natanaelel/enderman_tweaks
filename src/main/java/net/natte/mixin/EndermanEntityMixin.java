@@ -1,11 +1,12 @@
 package net.natte.mixin;
 
+import net.natte.config.Config;
+
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.TagKey;
-import net.natte.config.Config;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -40,6 +41,17 @@ public abstract class EndermanEntityMixin {
 	}
 
 
+	// enderman can't teleport
+	@Inject(method = "teleportRandomly()Z", at = @At("HEAD"), cancellable = true)
+	private void teleportRandomlyMixin(CallbackInfoReturnable<Boolean> cir){
+		if(!Config.canTeleport) cir.setReturnValue(false);
+	}
+
+	// enderman can't teleport to player
+	@Inject(method = "teleportTo(Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), cancellable = true)
+	private void teleportToMixin(CallbackInfoReturnable<Boolean> cir){
+		if(!Config.canTeleport) cir.setReturnValue(false);
+	}
 
 	
 }
