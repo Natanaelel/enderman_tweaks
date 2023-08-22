@@ -14,6 +14,8 @@
 # How to use:
 By default, all options are the same as vanilla. To configure, [Modmenu](https://modrinth.com/mod/modmenu) is recommended. Alternatively you can edit the `enderman_tweaks.json` file in the `config/` folder.
 
+Requires [Fabric API](https://modrinth.com/mod/fabric-api)
+
 [Modrinth](https://modrinth.com/mod/enderman-tweaks)
 
 [Curseforge](https://legacy.curseforge.com/minecraft/mc-mods/enderman-tweaks)
