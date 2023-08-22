@@ -1,7 +1,7 @@
 package net.natte.mixin;
 
 import net.natte.config.Config;
-
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.mob.EndermanEntity;
@@ -10,10 +10,10 @@ import net.minecraft.registry.tag.TagKey;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.At;
-
-
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EndermanEntity.class)
@@ -24,6 +24,12 @@ public abstract class EndermanEntityMixin {
 	private void hurtByWaterMixin(CallbackInfoReturnable<Boolean> cir) {
 		cir.setReturnValue(Config.doesWaterHurt);
 	}
+
+	// endermen doesn't take damage from empty Potions.WATER
+	// @Inject(method = )
+	// private boolean isWaterBottle(){
+	// 	return false;
+	// }
 
 	// makes endermen take damage from arrows
 	@Redirect(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/damage/DamageSource;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
@@ -53,5 +59,17 @@ public abstract class EndermanEntityMixin {
 		if(!Config.canTeleport) cir.setReturnValue(false);
 	}
 
+	// if enderman can't teleport, take damage from potion
+	@ModifyVariable(method = "damageFromPotion(Lnet/minecraft/entity/damage/DamageSource;Lnet/minecraft/entity/projectile/thrown/PotionEntity;F)Z", at = @At("STORE"), ordinal = 0)
+	private boolean damageFromPotionShouldDamageMixin(boolean isWaterBottle){
+		if(!Config.canTeleport) return true;
+		return isWaterBottle;
+	}
+
 	
+	// make passive
+	@Inject(method = "setTarget(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
+	private void setProvokedMixin(LivingEntity target, CallbackInfo ci){
+		if(Config.isPassive) ci.cancel();
+	}
 }
