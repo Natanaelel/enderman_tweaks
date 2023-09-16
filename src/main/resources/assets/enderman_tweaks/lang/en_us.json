@@ -7,5 +7,7 @@
     "enderman_tweaks.midnightconfig.canPickUpBlocks": "Endermen can pick up blocks",
     "enderman_tweaks.midnightconfig.canPlaceBlocks": "Endermen can place blocks",
     "enderman_tweaks.midnightconfig.canTeleport": "Endermen can teleport",
-    "enderman_tweaks.midnightconfig.isPassive": "Endermen are passive"
+    "enderman_tweaks.midnightconfig.isPassive": "Endermen are passive",
+    "enderman_tweaks.midnightconfig.doesSpawnOnMainIsland": "Enderman spawn on main island",
+    "enderman_tweaks.midnightconfig.mainIslandRadius": "Radius of main island"
 }

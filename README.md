@@ -7,6 +7,7 @@
 - Disable endermen teleporting
 - Endermen take damage from potions
 - Make endermen passive
+- Disable enderman spawning on end main island
 # Commands:
 `/enderman_tweaks reload` - reload config from file, requires permission level 2
 

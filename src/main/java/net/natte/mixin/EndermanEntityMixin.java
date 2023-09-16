@@ -2,11 +2,14 @@ package net.natte.mixin;
 
 import net.natte.config.Config;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.WorldAccess;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EndermanEntity.class)
-public abstract class EndermanEntityMixin {
+public abstract class EndermanEntityMixin extends PathAwareEntityMixin {
 
 	// makes endermen waterproof
 	@Inject(method = "hurtByWater()Z", at = @At("HEAD"), cancellable = true)
@@ -71,5 +74,26 @@ public abstract class EndermanEntityMixin {
 	@Inject(method = "setTarget(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
 	private void setProvokedMixin(LivingEntity target, CallbackInfo ci){
 		if(Config.isPassive) ci.cancel();
+	}
+
+	
+	@Override
+	public void canSpawnMixin(WorldAccess world, SpawnReason spawnReason, CallbackInfoReturnable<Boolean> cir) {
+		if(!Config.doesSpawnOnMainIsland){
+			Vec3d pos = ((EndermanEntity)(Object)this).getPos();
+
+			double squaredDistanceToCenter = pos.x * pos.x + pos.z * pos.z;
+			// System.out.println("limit = " + Config.mainIslandRadius + "^2 = " + Config.mainIslandRadius * Config.mainIslandRadius + ", distance^2 = " + squaredDistanceToCenter);
+			if(squaredDistanceToCenter < Config.mainIslandRadius * Config.mainIslandRadius){
+				cir.setReturnValue(false);
+				// System.out.println("in distance, prevented spawn");
+			}
+			// else{
+			// 	System.out.println("too far away, can spawn");
+			// }
+		}
+		// else{
+		// 	System.out.println("spawns on main island");
+		// }
 	}
 }

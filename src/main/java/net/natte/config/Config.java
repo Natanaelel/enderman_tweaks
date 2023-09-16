@@ -9,4 +9,6 @@ public class Config extends MidnightConfig {
     @Entry public static boolean canPlaceBlocks = true;
     @Entry public static boolean canTeleport = true;
     @Entry public static boolean isPassive = false;
+    @Entry public static boolean doesSpawnOnMainIsland = true;
+    @Entry public static int mainIslandRadius = 170;
 }
