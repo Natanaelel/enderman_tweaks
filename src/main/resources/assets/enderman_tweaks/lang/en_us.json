@@ -9,5 +9,6 @@
     "enderman_tweaks.midnightconfig.canTeleport": "Endermen can teleport",
     "enderman_tweaks.midnightconfig.isPassive": "Endermen are passive",
     "enderman_tweaks.midnightconfig.doesSpawnOnMainIsland": "Enderman spawn on main island",
-    "enderman_tweaks.midnightconfig.mainIslandRadius": "Radius of main island"
+    "enderman_tweaks.midnightconfig.mainIslandRadius": "Radius of main island",
+    "enderman_tweaks.midnightconfig.doesEndermiteAnger": "Endermen get angry at endermites"
 }

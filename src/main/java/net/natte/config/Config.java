@@ -11,4 +11,5 @@ public class Config extends MidnightConfig {
     @Entry public static boolean isPassive = false;
     @Entry public static boolean doesSpawnOnMainIsland = true;
     @Entry public static int mainIslandRadius = 170;
+    @Entry public static boolean doesEndermiteAnger = true;
 }

@@ -13,7 +13,7 @@ public abstract class EndermanEntity$PickUpBlockGoalMixin {
     // enderman can't pick up blocks
     @Inject(method = "canStart()Z", at = @At("HEAD"), cancellable = true)
     private void canStartMixin(CallbackInfoReturnable<Boolean> cir) {
-        
+
         if (!Config.canPickUpBlocks)
             cir.setReturnValue(false);
 

@@ -28,12 +28,6 @@ public abstract class EndermanEntityMixin extends PathAwareEntityMixin {
 		cir.setReturnValue(Config.doesWaterHurt);
 	}
 
-	// endermen doesn't take damage from empty Potions.WATER
-	// @Inject(method = )
-	// private boolean isWaterBottle(){
-	// 	return false;
-	// }
-
 	// makes endermen take damage from arrows
 	@Redirect(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/damage/DamageSource;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
 	private boolean isInMixin(DamageSource source, TagKey<DamageType> tag) {
@@ -45,55 +39,52 @@ public abstract class EndermanEntityMixin extends PathAwareEntityMixin {
 
 	// enderman doesn't kill you when you initiate a staring contest
 	@Inject(method = "isPlayerStaring(Lnet/minecraft/entity/player/PlayerEntity;)Z", at = @At("HEAD"), cancellable = true)
-	private void isPlayerStaringMixin(CallbackInfoReturnable<Boolean> cir){
-		if(!Config.doesStareAnger) cir.setReturnValue(false);
+	private void isPlayerStaringMixin(CallbackInfoReturnable<Boolean> cir) {
+		if (!Config.doesStareAnger)
+			cir.setReturnValue(false);
 	}
-
 
 	// enderman can't teleport
 	@Inject(method = "teleportRandomly()Z", at = @At("HEAD"), cancellable = true)
-	private void teleportRandomlyMixin(CallbackInfoReturnable<Boolean> cir){
-		if(!Config.canTeleport) cir.setReturnValue(false);
+	private void teleportRandomlyMixin(CallbackInfoReturnable<Boolean> cir) {
+		if (!Config.canTeleport)
+			cir.setReturnValue(false);
 	}
 
 	// enderman can't teleport to player
 	@Inject(method = "teleportTo(Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), cancellable = true)
-	private void teleportToMixin(CallbackInfoReturnable<Boolean> cir){
-		if(!Config.canTeleport) cir.setReturnValue(false);
+	private void teleportToMixin(CallbackInfoReturnable<Boolean> cir) {
+		if (!Config.canTeleport)
+			cir.setReturnValue(false);
 	}
 
 	// if enderman can't teleport, take damage from potion
 	@ModifyVariable(method = "damageFromPotion(Lnet/minecraft/entity/damage/DamageSource;Lnet/minecraft/entity/projectile/thrown/PotionEntity;F)Z", at = @At("STORE"), ordinal = 0)
-	private boolean damageFromPotionShouldDamageMixin(boolean isWaterBottle){
-		if(!Config.canTeleport) return true;
+	private boolean damageFromPotionShouldDamageMixin(boolean isWaterBottle) {
+		if (!Config.canTeleport)
+			return true;
 		return isWaterBottle;
 	}
 
-	
 	// make passive
 	@Inject(method = "setTarget(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
-	private void setProvokedMixin(LivingEntity target, CallbackInfo ci){
-		if(Config.isPassive) ci.cancel();
+	private void setProvokedMixin(LivingEntity target, CallbackInfo ci) {
+		if (Config.isPassive)
+			ci.cancel();
+		if (!Config.doesEndermiteAnger)
+			ci.cancel();
 	}
 
-	
+	// disable spawn on end main island
 	@Override
 	public void canSpawnMixin(WorldAccess world, SpawnReason spawnReason, CallbackInfoReturnable<Boolean> cir) {
-		if(!Config.doesSpawnOnMainIsland){
-			Vec3d pos = ((EndermanEntity)(Object)this).getPos();
+		if (!Config.doesSpawnOnMainIsland) {
+			Vec3d pos = ((EndermanEntity) (Object) this).getPos();
 
-			double squaredDistanceToCenter = pos.x * pos.x + pos.z * pos.z;
-			// System.out.println("limit = " + Config.mainIslandRadius + "^2 = " + Config.mainIslandRadius * Config.mainIslandRadius + ", distance^2 = " + squaredDistanceToCenter);
-			if(squaredDistanceToCenter < Config.mainIslandRadius * Config.mainIslandRadius){
+			double squaredDistanceToCenter = pos.horizontalLengthSquared();
+			if (squaredDistanceToCenter < Config.mainIslandRadius * Config.mainIslandRadius) {
 				cir.setReturnValue(false);
-				// System.out.println("in distance, prevented spawn");
 			}
-			// else{
-			// 	System.out.println("too far away, can spawn");
-			// }
 		}
-		// else{
-		// 	System.out.println("spawns on main island");
-		// }
 	}
 }

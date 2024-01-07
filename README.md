@@ -8,6 +8,7 @@
 - Endermen take damage from potions
 - Make endermen passive
 - Disable enderman spawning on end main island
+- Endermen doesn't get angry at endermites
 # Commands:
 `/enderman_tweaks reload` - reload config from file, requires permission level 2
 
@@ -20,3 +21,5 @@ Requires [Fabric API](https://modrinth.com/mod/fabric-api)
 [Modrinth](https://modrinth.com/mod/enderman-tweaks)
 
 [Curseforge](https://legacy.curseforge.com/minecraft/mc-mods/enderman-tweaks)
+
+**[Join the Discord!](https://discord.gg/tXJqWYMZbK)**
