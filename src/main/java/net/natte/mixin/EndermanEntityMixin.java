@@ -6,6 +6,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.mob.EndermanEntity;
+import net.minecraft.entity.mob.EndermiteEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.Vec3d;
@@ -71,7 +72,7 @@ public abstract class EndermanEntityMixin extends PathAwareEntityMixin {
 	private void setProvokedMixin(LivingEntity target, CallbackInfo ci) {
 		if (Config.isPassive)
 			ci.cancel();
-		if (!Config.doesEndermiteAnger)
+		if (!Config.doesEndermiteAnger && target instanceof EndermiteEntity)
 			ci.cancel();
 	}
 
