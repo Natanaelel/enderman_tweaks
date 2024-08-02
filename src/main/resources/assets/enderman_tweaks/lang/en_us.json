@@ -10,5 +10,11 @@
     "enderman_tweaks.midnightconfig.isPassive": "Endermen are passive",
     "enderman_tweaks.midnightconfig.doesSpawnOnMainIsland": "Enderman spawn on main island",
     "enderman_tweaks.midnightconfig.mainIslandRadius": "Radius of main island",
-    "enderman_tweaks.midnightconfig.doesEndermiteAnger": "Endermen get angry at endermites"
+    "enderman_tweaks.midnightconfig.doesEndermiteAnger": "Endermen get angry at endermites",
+
+    "enderman_tweaks.midnightconfig.doesEndermanEmitParticles": "Endermen emit particles",
+    "enderman_tweaks.midnightconfig.endermanParticleRed": "Enderman particle color red",
+    "enderman_tweaks.midnightconfig.endermanParticleGreen": "Enderman particle color green",
+    "enderman_tweaks.midnightconfig.endermanParticleBlue": "Enderman particle color blue",
+    "enderman_tweaks.midnightconfig.doesColorApplyToAllPortalParticles": "Does color apply to all portal particles"
 }

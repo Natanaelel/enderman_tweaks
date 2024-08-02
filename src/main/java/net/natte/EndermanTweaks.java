@@ -6,9 +6,6 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.natte.config.Config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -21,61 +18,54 @@ import java.util.List;
 
 public class EndermanTweaks implements ModInitializer {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("enderman_tweaks");
+    public static final String MOD_ID = "enderman_tweaks";
 
-	@Override
-	public void onInitialize() {
+    @Override
+    public void onInitialize() {
+        Config.init(MOD_ID, Config.class);
 
-		LOGGER.info("Hello Fabric world!");
+        registerCommands();
+    }
 
-		Config.init("enderman_tweaks", Config.class);
+    private static void registerCommands() {
+        CommandRegistrationCallback.EVENT.register(
+                (dispatcher, registryAccess, environment) -> dispatcher.register(
+                        literal(MOD_ID)
+                                .then(reloadConfigCommand())
+                                .then(showConfigCommand())));
 
-		registerCommands();
+    }
 
-		LOGGER.info("registered commands");
+    private static int showConfig(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
 
-	}
+        List<String> lines = new ArrayList<String>();
 
-	private static void registerCommands() {
-		CommandRegistrationCallback.EVENT.register(
-				(dispatcher, registryAccess, environment) -> dispatcher.register(
-						literal("enderman_tweaks")
-								.then(reloadConfigCommand("reload"))
-								.then(showConfigCommand("info"))));
+        for (Field field : Config.class.getFields()) {
+            String value = "(null)";
+            try {
+                value = field.get(null).toString();
+            } catch (Exception ignored) {
+            }
+            if (!field.getName().equals("configClass"))
+                lines.add(field.getName() + ": " + value);
+        }
 
-	}
+        source.sendMessage(Text.of(String.join("\n", lines)));
 
-	private static int showConfig(CommandContext<ServerCommandSource> context) {
-		ServerCommandSource source = context.getSource();
+        return Command.SINGLE_SUCCESS;
+    }
 
-		List<String> lines = new ArrayList<String>();
+    private static LiteralArgumentBuilder<ServerCommandSource> reloadConfigCommand() {
+        return literal("reload").requires(source -> source.hasPermissionLevel(2))
+                .executes(context -> {
+                    Config.init(MOD_ID, Config.class);
+                    context.getSource().sendMessage(Text.of("reloaded config"));
+                    return Command.SINGLE_SUCCESS;
+                });
+    }
 
-		for (Field field : Config.class.getFields()) {
-			String value = "(null)";
-			try {
-				value = field.get(null).toString();
-			} catch (Exception e) {
-			}
-			if(!field.getName().equals("configClass"))
-				lines.add(field.getName() + ": " + value);
-		}
-
-		source.sendMessage(Text.of(String.join("\n", lines)));
-
-		return Command.SINGLE_SUCCESS;
-	}
-
-	private static LiteralArgumentBuilder<ServerCommandSource> reloadConfigCommand(String command) {
-		return literal(command).requires(source -> source.hasPermissionLevel(2))
-				.executes(context -> {
-					Config.init("enderman_tweaks", Config.class);
-					context.getSource().sendMessage(Text.of("reloaded config"));
-					return Command.SINGLE_SUCCESS;
-				});
-	}
-
-	private static LiteralArgumentBuilder<ServerCommandSource> showConfigCommand(String command) {
-		return literal(command).executes(EndermanTweaks::showConfig);
-	}
-
+    private static LiteralArgumentBuilder<ServerCommandSource> showConfigCommand() {
+        return literal("info").executes(EndermanTweaks::showConfig);
+    }
 }
