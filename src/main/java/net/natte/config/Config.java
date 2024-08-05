@@ -18,6 +18,7 @@ public class Config extends MidnightConfig {
     @Entry public static float endermanParticleRed = 0.9f;
     @Entry public static float endermanParticleGreen = 0.3f;
     @Entry public static float endermanParticleBlue = 1.0f;
+    @Entry public static boolean doesColorApplyToNetherPortalParticles = false;
     @Entry public static boolean doesColorApplyToAllPortalParticles = false;
 
 }

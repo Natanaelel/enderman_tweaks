@@ -19,11 +19,21 @@ public abstract class PortalParticleClientMixin extends Particle {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onCreate(ClientWorld clientWorld, double x, double y, double z, double vx, double vy, double vz, CallbackInfo ci) {
-        if (EndermanTweaksClient.isAddingEndermanParticle || Config.doesColorApplyToAllPortalParticles) {
-            float i = this.random.nextFloat() * 0.6F + 0.4F;
-            this.red = i * Config.endermanParticleRed;
-            this.green = i * Config.endermanParticleGreen;
-            this.blue = i * Config.endermanParticleBlue;
+        switch (EndermanTweaksClient.currentlyAddingType) {
+            case NONE -> {
+                if (!Config.doesColorApplyToAllPortalParticles)
+                    return;
+            }
+            case ENDERMAN -> {
+            }
+            case NETHER_PORTAL -> {
+                if (!Config.doesColorApplyToNetherPortalParticles)
+                    return;
+            }
         }
+        float i = this.random.nextFloat() * 0.6F + 0.4F;
+        this.red = i * Config.endermanParticleRed;
+        this.green = i * Config.endermanParticleGreen;
+        this.blue = i * Config.endermanParticleBlue;
     }
 }

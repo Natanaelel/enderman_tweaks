@@ -16,5 +16,6 @@
     "enderman_tweaks.midnightconfig.endermanParticleRed": "Enderman particle color red",
     "enderman_tweaks.midnightconfig.endermanParticleGreen": "Enderman particle color green",
     "enderman_tweaks.midnightconfig.endermanParticleBlue": "Enderman particle color blue",
+    "enderman_tweaks.midnightconfig.doesColorApplyToNetherPortalParticles": "Does color apply to nether to portal particles",
     "enderman_tweaks.midnightconfig.doesColorApplyToAllPortalParticles": "Does color apply to all portal particles"
 }

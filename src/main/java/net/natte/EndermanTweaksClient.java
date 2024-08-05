@@ -1,5 +1,5 @@
 package net.natte;
 
 public class EndermanTweaksClient {
-    public static boolean isAddingEndermanParticle = false;
+    public static ParticleType currentlyAddingType = ParticleType.NONE;
 }

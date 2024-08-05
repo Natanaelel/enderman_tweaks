@@ -11,7 +11,8 @@
   ],
   "client": [
     "client.EndermanEntityClientMixin",
-    "client.PortalParticleClientMixin"
+    "client.PortalParticleClientMixin",
+    "client.NetherPortalBlockClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
